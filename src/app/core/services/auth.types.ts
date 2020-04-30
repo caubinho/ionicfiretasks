@@ -10,7 +10,7 @@ export interface User {
 }
 
 export interface AuthOptions {
-  isSign: boolean;
+  isSignIn: boolean;
   provider: AuthProvider;
   user: User;
 }
