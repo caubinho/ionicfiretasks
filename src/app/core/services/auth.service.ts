@@ -33,7 +33,6 @@ export class AuthService {
     }
 
     return operation;
-
   }
 
   logout(): Promise<void>{
