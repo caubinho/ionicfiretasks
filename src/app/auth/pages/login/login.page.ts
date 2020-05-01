@@ -1,4 +1,5 @@
-import { AuthProvider } from './../../../core/services/auth.types';
+import { OverlayService } from 'src/app/core/services/overlay.service';
+import { AuthProvider } from 'src/app/core/services/auth.types';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
@@ -22,7 +23,7 @@ export class LoginPage implements OnInit {
 
   private nameControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
-  constructor( private authService: AuthService, private fb: FormBuilder) { }
+  constructor( private authService: AuthService, private fb: FormBuilder, private overlayService: OverlayService) { }
 
   ngOnInit() {
 
@@ -62,6 +63,10 @@ export class LoginPage implements OnInit {
   }
 
  async onSubmit(provider: AuthProvider): Promise<void> {
+
+    const loading = await this.overlayService.loading();
+
+
     try{
 
       const credentials = await this.authService.authenticate({
@@ -76,8 +81,14 @@ export class LoginPage implements OnInit {
 
     }catch (e){
 
-      console.log('Auth Error ', e)
+      console.log('Auth Error ', e);
 
+      await this.overlayService.toast({
+        message: e.message
+      })
+
+    } finally {
+      loading.dismiss();
     }
   }
 

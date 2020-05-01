@@ -34,7 +34,7 @@ export class OverlayService {
       position: 'bottom',
       duration: 3000,
       message: 'Click to Close',
-      showCloseButton: true,
+      buttons:['X'],
       ...options
 
     });
